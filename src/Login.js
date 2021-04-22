@@ -1,9 +1,11 @@
 import axios from "axios";
-import { data } from "jquery";
 import { useEffect, useState } from "react";
+import { Link, withRouter } from "react-router-dom";
+import { connect } from "react-redux";
 
 function Login(props) {
     useEffect(() => {}, []);
+    console.log(">>>>>>>>>>>>>>> login props", props);
 
     var [error, setError] = useState();
     var [user, setUser] = useState({});
@@ -37,7 +39,11 @@ function Login(props) {
                 if (response.data.token) {
                     localStorage.token = response.data.token;
                     localStorage.email = response.data.email;
-                    props.history.push("/login");
+                    props.dispatch({
+                        type: "LOGIN",
+                        payload: response.data,
+                    });
+                    props.history.push("/");
                 } else {
                     alert("Invalid creadinatial");
                 }
@@ -63,17 +69,27 @@ function Login(props) {
             <div className="form-group">
                 <label>Email</label>
                 <input type="email" class="form-control" onChange={getEmail}></input>
+                {/* {user && <p className="text-info">{user.email}</p>} */}
             </div>
             <div className="form-group">
                 <label>Password</label>
                 <input type="password" class="form-control" onChange={getPassword}></input>
+                {/* {user && <p className="text-info">{user.password}</p>} */}
+            </div>
+            <div className="float-right">
+                <Link to="/forgot">forgot password?</Link>
+            </div>
+            <div>
+                <Link to="/signup">New user? click here...</Link>
             </div>
             <div style={{ color: "red" }}>{error}</div>
-            <button className="btn btn-primary" onClick={login}>
+            <button className="btn btn-primary mt-2" onClick={login}>
                 Login
             </button>
         </div>
     );
 }
 
-export default Login;
+Login = withRouter(Login);
+export default connect()(Login);
+//above line addded props to login comment known as dispatch

@@ -1,11 +1,7 @@
 import { createStore } from "redux";
 import demo from "./reducers";
+import { FirstMiddleWares } from "./middlewares";
 
 var store = createStore(demo);
 
-store.dispatch({
-    type: "login",
-    payload: { email: "amit@gmail.com", name: "Amit Gajare" },
-});
-
-console.log(".............", store.getStore());
+export default store;

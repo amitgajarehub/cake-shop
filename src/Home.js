@@ -25,11 +25,15 @@ function Home() {
     return (
         <div>
             <HomeSlider />
-            <div className="container-fluid bg-light">
+            <div className="container-fluid py-5">
                 <div className="row">
                     {cakes?.length > 0 &&
                         cakes.map((each, index) => {
-                            return <Cake cakedata={each} index={index} />;
+                            return (
+                                <div className="col-md-3 mb-4">
+                                    <Cake cakedata={each} index={index} />
+                                </div>
+                            );
                         })}
                 </div>
             </div>

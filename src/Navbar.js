@@ -1,23 +1,55 @@
-import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
+import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearch, faShoppingBag, faShoppingBasket, faShoppingCart, faUser } from "@fortawesome/free-solid-svg-icons";
+import { useEffect } from "react";
 
-// var [search, setsearchResult] = useState({});
+function Navbar(props) {
+    useEffect(() => {
+        axios({
+            method: "post",
+            url: "https://apibyashu.herokuapp.com/api/cakecart",
+            headers: { authtoken: localStorage.token },
+        }).then(
+            (response) => {
+                console.log("Cart success====>", response.data);
+                props.dispatch({
+                    type: "CART",
+                    payload: response.data.data,
+                });
+                props.dispatch({
+                    type: "ADD_TO_CART",
+                    payload: true,
+                });
+                // setCart(response.data.data)
+                // setRemoved(false)
+            },
+            (error) => {
+                console.log("error", error);
+            }
+        );
+    }, [props.addtocart]);
 
-// let Search = (event) => {
-//     setsearchResult({
-//         ...search,
-//         search: event.target.value,
-//     });
-//     search.search = event.target.value;
-// };
+    let search = function (event) {
+        event.preventDefault();
 
-function Navabar(props) {
-    // var count = 0;
-    // let search = () => {
-    //     event.preventDefault();
-    //     let url = "search?searchtext-"document.getElementById('txtSearch').value;
-    //     console.log("url")
-    // }
+        let url = "/search?searchtext=" + document.getElementById("txtSearch").value;
+        console.log("url===>", url);
+        //props.history.push(url);
+    };
+
+    var logout = (event) => {
+        alert("Logout in process...");
+        event.preventDefault();
+        props.dispatch({
+            type: "LOGOUT",
+        });
+        props.dispatch({
+            type: "CART",
+            payload: null,
+        });
+    };
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
             <Link to="/">
@@ -36,45 +68,15 @@ function Navabar(props) {
             </button>
             <div className="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul className="navbar-nav mr-auto">
-                    <li className="nav-item active">
-                        <a className="nav-link" href="#">
-                            Home <span className="sr-only">(current)</span>
-                        </a>
-                    </li>
                     <li className="nav-item">
-                        <a className="nav-link" href="#">
-                            Link
-                        </a>
-                    </li>
-                    <li className="nav-item dropdown">
-                        <a
-                            className="nav-link dropdown-toggle"
-                            href="#"
-                            id="navbarDropdown"
-                            role="button"
-                            data-toggle="dropdown"
-                            aria-haspopup="true"
-                            aria-expanded="false"
-                        >
-                            Dropdown
-                        </a>
-                        <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a className="dropdown-item" href="#">
-                                Action
+                        {props.user && (
+                            <a className="nav-link disabled text-light" tabindex="-1" aria-disabled="true">
+                                <FontAwesomeIcon icon={faUser} color="white" />
+                                <span className="ml-3">
+                                    Welcome <strong>{props.user}</strong>
+                                </span>
                             </a>
-                            <a className="dropdown-item" href="#">
-                                Another action
-                            </a>
-                            <div className="dropdown-divider"></div>
-                            <a className="dropdown-item" href="#">
-                                Something else here
-                            </a>
-                        </div>
-                    </li>
-                    <li className="nav-item">
-                        <a className="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">
-                            Disabled
-                        </a>
+                        )}
                     </li>
                 </ul>
                 <form className="form-inline my-2 my-lg-0">
@@ -83,14 +85,21 @@ function Navabar(props) {
                         type="search"
                         placeholder="Search"
                         aria-label="Search"
+                        id="txtSearch"
                     ></input>
                     <Link to="/search">
-                        <button className="btn btn-outline-light" type="submit">
-                            Search
+                        <button onClick={search} className="btn btn-outline-light" type="submit">
+                            <FontAwesomeIcon icon={faSearch} />
+                        </button>
+                    </Link>
+                    <Link to="/shoppingcart">
+                        <button className="btn btn-outline-warning ml-2" type="submit">
+                            <FontAwesomeIcon icon={faShoppingBag} />
+                            <span className="ml-1">{props?.cart?.data?.length ? props.cart.data.length : 0}</span>
                         </button>
                     </Link>
                     {props.loginstatus ? (
-                        <button className="btn btn-outline-danger mx-2" type="submit">
+                        <button onClick={logout} className="btn btn-outline-danger mx-2" type="submit">
                             logout
                         </button>
                     ) : (
@@ -106,4 +115,12 @@ function Navabar(props) {
     );
 }
 
-export default Navabar;
+export default connect(function (state, props) {
+    console.log("........state initially", state);
+    return {
+        user: state?.user?.name,
+        loginstatus: state?.isloggedin,
+        addtocart: state?.addtocart,
+        cart: state?.cart,
+    };
+})(Navbar);

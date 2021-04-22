@@ -11,18 +11,6 @@ class Signup extends Component {
     }
     user = {};
 
-    componentDidMount() {
-        alert("Mounted");
-    }
-
-    componentDidUpdate() {
-        alert("Updated");
-    }
-
-    componentWillUnmount() {
-        alert("will");
-    }
-
     getEmail = (event) => {
         this.user.email = event.target.value;
     };
@@ -49,6 +37,12 @@ class Signup extends Component {
             }).then(
                 (response) => {
                     console.log("response signup API", response);
+                    if (response.data.message === "User Already Exists") {
+                        alert(response.data.message);
+                    }
+                    if (response.data.message === "User Registered") {
+                        alert(response.data.message + " Successfully");
+                    }
                 },
                 (error) => {
                     console.log("error from signup", error);
@@ -81,7 +75,7 @@ class Signup extends Component {
                     <input type="password" class="form-control" onChange={this.getPassword}></input>
                 </div>
                 <div style={{ color: "red" }}>{this.state.errorMessage}</div>
-                <button className="btn btn-primary" onClick={this.register}>
+                <button className="btn btn-outline-primary mt-2" onClick={this.register}>
                     Register
                 </button>
                 {/* <div className="mt-4 text-center">

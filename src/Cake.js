@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 function Cake(props) {
     return (
-        <div className="card" style={{ width: "20%" }}>
+        <div className="card" style={{ width: "100%" }}>
             <Link to={"/cake/" + props.cakedata.cakeid}>
                 <img src={props.cakedata.image} className="card-img-top" style={{ height: "200px" }} />
             </Link>
