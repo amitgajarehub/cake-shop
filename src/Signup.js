@@ -1,4 +1,3 @@
-import { post } from "jquery";
 import { Component } from "react";
 import axios from "axios";
 
@@ -13,14 +12,41 @@ class Signup extends Component {
 
     getEmail = (event) => {
         this.user.email = event.target.value;
+        if (!/^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/.test(this.user.email)) {
+            this.setState({
+                errorEmail: "Please, Enter valid Email",
+            });
+        } else {
+            this.setState({
+                errorEmail: "",
+            });
+        }
     };
 
     getPassword = (event) => {
         this.user.password = event.target.value;
+        if (!this.user.password) {
+            this.setState({
+                errorPass: "Please, Enter valid Password",
+            });
+        } else {
+            this.setState({
+                errorPass: "",
+            });
+        }
     };
 
     getName = (event) => {
         this.user.name = event.target.value;
+        if (!/^[a-zA-Z\s]+.{2}$/.test(this.user.name)) {
+            this.setState({
+                errorName: "Please, Enter valid Name",
+            });
+        } else {
+            this.setState({
+                errorName: "",
+            });
+        }
     };
 
     register = () => {
@@ -65,14 +91,17 @@ class Signup extends Component {
                 <div className="form-group">
                     <label>Name</label>
                     <input type="text" class="form-control" onChange={this.getName}></input>
+                    <div className="text-danger">{this.state.errorName}</div>
                 </div>
                 <div className="form-group">
                     <label>Email</label>
                     <input type="email" class="form-control" onChange={this.getEmail}></input>
+                    <div className="text-danger">{this.state.errorEmail}</div>
                 </div>
                 <div className="form-group">
                     <label>Password</label>
                     <input type="password" class="form-control" onChange={this.getPassword}></input>
+                    <div className="text-danger">{this.state.errorPass}</div>
                 </div>
                 <div style={{ color: "red" }}>{this.state.errorMessage}</div>
                 <button className="btn btn-outline-primary mt-2" onClick={this.register}>

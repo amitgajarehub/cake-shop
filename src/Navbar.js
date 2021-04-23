@@ -92,7 +92,7 @@ function Navbar(props) {
                             <FontAwesomeIcon icon={faSearch} />
                         </button>
                     </Link>
-                    <Link to="/shoppingcart">
+                    <Link to="/cart">
                         <button className="btn btn-outline-warning ml-2" type="submit">
                             <FontAwesomeIcon icon={faShoppingBag} />
                             <span className="ml-1">{props?.cart?.data?.length ? props.cart.data.length : 0}</span>
