@@ -6,6 +6,7 @@ function Order() {
                     <div className="col-md-12">
                         <h2>Order</h2>
                     </div>
+                    <button className="btn btn-outline-primary mt-5 w-25">Place Order</button>
                 </div>
             </div>
         </div>

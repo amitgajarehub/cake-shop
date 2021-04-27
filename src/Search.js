@@ -6,7 +6,6 @@ import queryString from "query-string";
 
 function Search(props) {
     const parsed = queryString.parse(props.location.search);
-    console.log("Parsed....", parsed);
     let [cakesresult, setCakes] = useState([]);
 
     //let searchCakeApi = "https://apibyashu.herokuapp.com/api/searchcakes?q=" + "cake";
@@ -18,7 +17,6 @@ function Search(props) {
             url: searchCakeApi,
         }).then(
             (response) => {
-                console.log("response from search cake api", response.data);
                 setCakes(response.data.data);
             },
             (error) => {
@@ -27,18 +25,25 @@ function Search(props) {
         );
     }, [props.location.search]);
     return (
-        <div>
-            <div className="container-fluid bg-light">
+        <div className="bg-light">
+            <div className="container pt-4 border-bottom">
+                <div className="row">
+                    <div className="col-12 h4">Search result...</div>
+                </div>
+            </div>
+            <div className="container  py-5">
                 <div className="row">
                     {cakesresult?.length > 0 ? (
                         cakesresult.map((each, index) => {
-                            return <Cake cakedata={each} index={index} />;
+                            return (
+                                <div className="col-md-3 mb-4">
+                                    <Cake cakedata={each} index={index} />
+                                </div>
+                            );
                         })
                     ) : (
-                        <div>
-                            <span className="alert alert-warning">
-                                No result found for search, Please try other cakes...
-                            </span>
+                        <div className="col-6 mx-auto text-center ">
+                            <p className="alert alert-info ">No result found for search, Please try other cakes...</p>
                         </div>
                     )}
                 </div>

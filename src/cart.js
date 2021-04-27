@@ -7,6 +7,8 @@ import { Link } from "react-router-dom";
 
 function Cart(props) {
     let [removed, setRemoved] = useState(false);
+    let [subtotal, setSubtotal] = useState(false);
+
     let removefromcart = (data) => {
         alert("remove cake");
         axios({
@@ -30,6 +32,16 @@ function Cart(props) {
             }
         );
     };
+
+    useEffect(() => {
+        let total = 0;
+        console.log("cart js >>>>>>>>", props.cart);
+        props.cart?.data?.length > 0 &&
+            props.cart.data.map((each) => {
+                total = total + each.price;
+            });
+        setSubtotal(total);
+    }, props.cart);
 
     return (
         <div className="shopping-cart">
@@ -99,22 +111,17 @@ function Cart(props) {
                             <div className="p-3 table-secondary shadow">
                                 <table class="table table-borderless">
                                     <tbody>
-                                        {/* {props.cart?.data?.length > 0 &&
-                                            props.cart.data.map((each, index) => {
-                                                return ( */}
                                         <tr>
                                             <th scope="row">Subtotal</th>
-                                            <td>12000 Rs</td>
+                                            <td>{subtotal}</td>
                                         </tr>
-                                        {/* );
-                                            })} */}
                                         <tr>
                                             <th scope="row">Shipping </th>
                                             <td>FREEE</td>
                                         </tr>
                                         <tr className="border-top border-secondary">
                                             <th scope="row">Total :</th>
-                                            <td>12000</td>
+                                            <td>{subtotal}</td>
                                         </tr>
                                     </tbody>
                                 </table>

@@ -1,6 +1,18 @@
 import { connect } from "react-redux";
+import { useEffect, useState } from "react";
 
 function CartSummary(props) {
+    let [subtotal, setSubtotal] = useState(false);
+
+    useEffect(() => {
+        let total = 0;
+        props.cart?.data?.length > 0 &&
+            props.cart.data.map((each) => {
+                total = total + each.price;
+            });
+        setSubtotal(total);
+    }, props.cart);
+
     return (
         <div className="cart-summary-page">
             <div className="container py-4">
@@ -13,13 +25,17 @@ function CartSummary(props) {
                                         return (
                                             <tr>
                                                 <th scope="row">{each.name}</th>
-                                                <td>{each.price}Rs</td>
+                                                <td>{each.price}</td>
                                             </tr>
                                         );
                                     })}
+                                <tr className="">
+                                    <th scope="row">Shipping charges </th>
+                                    <td>FREE</td>
+                                </tr>
                                 <tr className="border-top border-secondary">
                                     <th scope="row">Total :</th>
-                                    <td>12000</td>
+                                    <td>{subtotal}</td>
                                 </tr>
                             </tbody>
                         </table>

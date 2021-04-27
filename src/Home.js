@@ -25,7 +25,7 @@ function Home() {
     return (
         <div>
             <HomeSlider />
-            <div className="container-fluid py-5">
+            <div className="container-fluid p-5">
                 <div className="row">
                     {cakes?.length > 0 &&
                         cakes.map((each, index) => {

@@ -1,11 +1,13 @@
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch, faShoppingBag, faShoppingBasket, faShoppingCart, faUser } from "@fortawesome/free-solid-svg-icons";
 import { useEffect } from "react";
 
 function Navbar(props) {
+    const history = useHistory();
+
     useEffect(() => {
         axios({
             method: "post",
@@ -22,8 +24,6 @@ function Navbar(props) {
                     type: "ADD_TO_CART",
                     payload: true,
                 });
-                // setCart(response.data.data)
-                // setRemoved(false)
             },
             (error) => {
                 console.log("error", error);
@@ -36,7 +36,7 @@ function Navbar(props) {
 
         let url = "/search?searchtext=" + document.getElementById("txtSearch").value;
         console.log("url===>", url);
-        //props.history.push(url);
+        history.push(url);
     };
 
     var logout = (event) => {
@@ -116,7 +116,6 @@ function Navbar(props) {
 }
 
 export default connect(function (state, props) {
-    console.log("........state initially", state);
     return {
         user: state?.user?.name,
         loginstatus: state?.isloggedin,

@@ -62,7 +62,6 @@ class Signup extends Component {
                 data: this.user,
             }).then(
                 (response) => {
-                    console.log("response signup API", response);
                     if (response.data.message === "User Already Exists") {
                         alert(response.data.message);
                     }
@@ -75,7 +74,6 @@ class Signup extends Component {
                 }
             );
         }
-        console.log("...... user details", this.user);
     };
 
     goOnline = () => {
