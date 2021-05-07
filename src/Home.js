@@ -1,9 +1,11 @@
-import HomeSlider from "./HomeSlider";
-import Cake from "./Cake";
-import CakeDetails from "./CakeDetails";
-// import cakes from "./data.js";
-import { useEffect, useState } from "react";
+import React from "react";
 import axios from "axios";
+import Cake from "./Cake";
+import HomeSlider from "./HomeSlider";
+import CakeDetails from "./CakeDetails";
+import { useEffect, useState } from "react";
+
+export const DiscountCotext = React.createContext();
 
 function Home() {
     let [cakes, setCakes] = useState([]);
@@ -31,7 +33,9 @@ function Home() {
                         cakes.map((each, index) => {
                             return (
                                 <div className="col-md-3 mb-4">
+                                    {/* <DiscountCotext.Provider value="Discount value"> */}
                                     <Cake cakedata={each} index={index} />
+                                    {/* </DiscountCotext.Provider> */}
                                 </div>
                             );
                         })}

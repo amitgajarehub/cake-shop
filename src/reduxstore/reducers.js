@@ -6,9 +6,25 @@ var demo = function (
 ) {
     switch (action.type) {
         case "LOGIN": {
+            console.log("Login Started");
+            state = { ...state };
+            state["isfetching"] = true;
+            return state;
+        }
+
+        case "LOGIN_SUCCESS": {
             state = { ...state };
             state["isloggedin"] = true;
             state["user"] = action.payload;
+            state["isfetching"] = false;
+            state["isloginerror"] = false;
+            return state;
+        }
+
+        case "LOGIN_FAILURE": {
+            state = { ...state };
+            state["isfetching"] = false;
+            state["isloginerror"] = true;
             return state;
         }
 

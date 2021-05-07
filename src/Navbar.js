@@ -11,7 +11,7 @@ function Navbar(props) {
     useEffect(() => {
         axios({
             method: "post",
-            url: "https://apibyashu.herokuapp.com/api/cakecart",
+            url: process.env.REACT_APP_BASE_URL + "/api/cakecart",
             headers: { authtoken: localStorage.token },
         }).then(
             (response) => {

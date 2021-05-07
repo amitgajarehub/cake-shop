@@ -1,6 +1,11 @@
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { DiscountCotext } from "./Home";
 
 function Cake(props) {
+    // const context = useContext(DiscountCotext);
+    // console.log("....", context);
+
     return (
         <div className="card">
             <Link to={"/cake/" + props.cakedata.cakeid}>

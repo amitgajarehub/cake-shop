@@ -48,13 +48,13 @@ function Login(props) {
         event.preventDefault();
         var form = document.getElementById("address-form");
         var errors = validate(form.elements);
-
+        console.log(props.error);
         if (errors) {
             setFormerrors(errors);
         } else {
             setFormerrors({});
-            alert("form validated, Log-In in progess...");
-            let loginapi = "https://apibyashu.herokuapp.com/api/login";
+
+            let loginapi = process.env.REACT_APP_BASE_URL + "/api/login";
             axios({
                 url: loginapi,
                 method: "post",
@@ -65,8 +65,10 @@ function Login(props) {
                     if (response.data.token) {
                         localStorage.token = response.data.token;
                         localStorage.email = response.data.email;
+                        alert("form validated, Log-In in progess...");
                         props.dispatch({
-                            type: "LOGIN",
+                            //type: "LOGIN",
+                            type: "LOGIN_SUCCESS", //change the due to saga
                             payload: response.data,
                         });
                         props.history.push("/");
@@ -80,6 +82,10 @@ function Login(props) {
             );
         }
         console.log("User is trying to login", user);
+        props.dispatch({
+            type: "LOGIN",
+            payload: user,
+        });
     };
 
     return (
@@ -100,12 +106,12 @@ function Login(props) {
                 <div className="text-danger">{formerrors?.password && <div>{formerrors.password}</div>}</div>
             </div>
             <div className="float-right">
-                <Link to="/forgot">forgot password?</Link>
+                <Link to="/forgotpassword">forgot password?</Link>
             </div>
             <div>
                 <Link to="/signup">New user? click here...</Link>
             </div>
-            <div style={{ color: "red" }}>{error}</div>
+            {props.error && <div style={{ color: "red" }}>Invalid creadinatial</div>}
             <div className="text-center mt-5">
                 <button className="btn btn-outline-primary w-50" onClick={login}>
                     Log In
@@ -116,5 +122,10 @@ function Login(props) {
 }
 
 Login = withRouter(Login);
-export default connect()(Login);
+export default connect((state, props) => {
+    console.log("State of store in login component", state);
+    return {
+        error: state["isloginerror"],
+    };
+})(Login);
 //above line addded props to login comment known as dispatch
