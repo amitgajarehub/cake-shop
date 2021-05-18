@@ -1,9 +1,9 @@
 import { useState } from "react";
+import { connect } from "react-redux";
 
-function Address() {
+function Address(props) {
     var [formerrors, setFormerrors] = useState({});
     var validate = function (elements) {
-        console.log(/^[a-zA-Z\s]+$/.test(!elements.name.value));
         var errors = {};
         if (!/^[a-zA-Z\s]+$/.test(elements.name.value)) {
             errors.name = "Please, enter valid Name";
@@ -29,15 +29,29 @@ function Address() {
         else return false;
     };
 
-    var placeOrder = function (event) {
-        event.preventDefault();
+    var saveAddress = function (event) {
         var form = document.getElementById("address-form");
+
         var errors = validate(form.elements);
         if (errors) {
+            event.preventDefault();
             setFormerrors(errors);
         } else {
             setFormerrors({});
-            alert("form validated & Saved");
+            var data = {
+                name: form.name.value,
+                phone: form.email.value,
+                address: form.address.value,
+                city: form.city.value,
+                state: form.state.value,
+                zip: form.zip.value,
+            };
+            props.dispatch({
+                type: "ADDRESS",
+                payload: data,
+            });
+            props.history.push("/checkout/payment");
+            alert("Addres Saved");
         }
     };
     return (
@@ -49,7 +63,7 @@ function Address() {
                     <div className="text-danger">{formerrors?.name && <div>{formerrors.name}</div>}</div>
                 </div>
             </form>
-            <button onClick={placeOrder}>Place Order</button> */}
+            <button onClick={saveAddress}>Place Order</button> */}
 
             <form id="address-form">
                 <div className="form-row">
@@ -93,8 +107,8 @@ function Address() {
                     </div>
                 </div>
                 <div className="mt-3">
-                    <button onClick={placeOrder} className="btn btn-outline-primary w-25">
-                        Save
+                    <button onClick={saveAddress} className="btn btn-outline-primary w-25">
+                        Save and Next
                     </button>
                 </div>
             </form>
@@ -102,4 +116,9 @@ function Address() {
     );
 }
 
-export default Address;
+export default connect(function (state, props) {
+    return {
+        user: state?.user,
+        address: state?.address,
+    };
+})(Address);

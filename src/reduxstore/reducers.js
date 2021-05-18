@@ -55,6 +55,14 @@ var demo = function (
             return state;
         }
 
+        case "ADDRESS": {
+            console.log("User address store in redux store");
+            state = { ...state };
+            state["isaddress"] = true;
+            state["address"] = action.payload;
+            return state;
+        }
+
         default:
             return state;
     }

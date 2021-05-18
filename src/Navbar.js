@@ -53,7 +53,7 @@ function Navbar(props) {
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
             <Link to="/">
-                <a className="navbar-brand">Cake</a>
+                <a className="navbar-brand">Cake Bake</a>
             </Link>
             <button
                 className="navbar-toggler"

@@ -34,9 +34,7 @@ function CakeDetails(props) {
             data: { name: data.name, image: data.image, cakeid: data.cakeid, price: data.price, weight: data.weight },
         }).then(
             (response) => {
-                console.log("Response from Add To Cart api...", response.data);
                 if (response.data.message == "Added to cart") {
-                    console.log("dispatch success ==>", response.data);
                     props.dispatch({
                         type: "ADD_TO_CART",
                         payload: response.data,

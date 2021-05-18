@@ -13,6 +13,10 @@ function CartSummary(props) {
         setSubtotal(total);
     }, props.cart);
 
+    var goNext = () => {
+        props.history.push("/checkout/address");
+    };
+
     return (
         <div className="cart-summary-page">
             <div className="container py-4">
@@ -39,6 +43,9 @@ function CartSummary(props) {
                                 </tr>
                             </tbody>
                         </table>
+                        <button className="btn btn-outline-primary  w-25 shadow" onClick={goNext}>
+                            Next
+                        </button>
                     </div>
                 </div>
             </div>

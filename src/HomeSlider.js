@@ -3,13 +3,13 @@ function HomeSlider() {
         <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <img style={{ height: "600px" }} src="slider-1.jpg" class="d-block w-100" alt="..." />
+                    <img style={{ height: "500px" }} src="slider-1.jpg" class="d-block w-100" alt="..." />
                 </div>
                 <div class="carousel-item">
-                    <img style={{ height: "600px" }} src="slider-2.jpg" class="d-block w-100" alt="..." />
+                    <img style={{ height: "500px" }} src="slider-2.jpg" class="d-block w-100" alt="..." />
                 </div>
                 <div class="carousel-item">
-                    <img style={{ height: "600px" }} src="slider-3.jpg" class="d-block w-100" alt="..." />
+                    <img style={{ height: "500px" }} src="slider-3.jpg" class="d-block w-100" alt="..." />
                 </div>
             </div>
             <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">

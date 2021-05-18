@@ -10,7 +10,6 @@ function Cart(props) {
     let [subtotal, setSubtotal] = useState(false);
 
     let removefromcart = (data) => {
-        alert("remove cake");
         axios({
             method: "post",
             url: "https://apibyashu.herokuapp.com/api/removecakefromcart",

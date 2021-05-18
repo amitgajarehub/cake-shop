@@ -27,8 +27,13 @@ function Home() {
     return (
         <div>
             <HomeSlider />
-            <div className="container-fluid p-5">
+            <div className="container-fluid px-5 py-2">
                 <div className="row">
+                    <div className="col-md-12">
+                        <h2 className="py-3 border-bottom text-center">Most Popular Cakes</h2>
+                    </div>
+                </div>
+                <div className="row py-3">
                     {cakes?.length > 0 &&
                         cakes.map((each, index) => {
                             return (

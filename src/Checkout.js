@@ -2,7 +2,7 @@ import { Rout, Route, useRouteMatch } from "react-router";
 import { Link } from "react-router-dom";
 import Payment from "./Payment";
 import CartSummary from "./CartSummary";
-import Order from "./Order";
+import OrderSummery from "./OrderSummery";
 import Address from "./Address";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -12,6 +12,7 @@ function Checkout(props) {
     var route = useRouteMatch();
     var url = route.url;
     var path = route.path;
+    console.log("page", props);
     return (
         <div className="checkout">
             <div className="container py-4 border-bottom">
@@ -27,23 +28,23 @@ function Checkout(props) {
                         <div className="col-md-2 shadow-lg bg-dark py-4" style={{ height: "300px" }}>
                             <ul class="nav flex-column">
                                 <Link to={url}>
-                                    <li class="nav-item text-white pl-2 py-3">
+                                    <li className="nav-item text-white pl-2 py-3">
                                         <h5>Cart Summery</h5>
                                     </li>
                                 </Link>
                                 <Link to={url + "/address"}>
-                                    <li class="nav-item text-white pl-2 py-3">
+                                    <li className="nav-item text-white pl-2 py-3">
                                         <h5>Address</h5>
                                     </li>
                                 </Link>
                                 <Link to={url + "/payment"}>
-                                    <li class="nav-item text-white pl-2 py-3">
+                                    <li className="nav-item text-white pl-2 py-3">
                                         <h5>Payment</h5>
                                     </li>
                                 </Link>
-                                <Link to={url + "/order"}>
-                                    <li class="nav-item text-white pl-2 py-3">
-                                        <h5>Order</h5>
+                                <Link to={url + "/ordersummery"}>
+                                    <li className="nav-item text-white pl-2 py-3">
+                                        <h5>Order Summery</h5>
                                     </li>
                                 </Link>
                             </ul>
@@ -52,7 +53,7 @@ function Checkout(props) {
                             <Route exact path={path} component={CartSummary} />
                             <Route exact path={path + "/address"} component={Address} />
                             <Route exact path={path + "/payment"} component={Payment} />
-                            <Route exact path={path + "/order"} component={Order} />
+                            <Route exact path={path + "/ordersummery"} component={OrderSummery} />
                         </div>
                     </div>
                 </div>
@@ -83,10 +84,9 @@ function Checkout(props) {
     );
 }
 
-//export default Checkout;
 export default connect(function (state, props) {
     return {
-        //cart: state?.cart,
         loginstatus: state?.isloggedin,
+        address: state?.address,
     };
 })(Checkout);

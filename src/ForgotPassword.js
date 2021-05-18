@@ -1,20 +1,18 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function ForgotPassword(props) {
-    console.log("ForgotPassword", props);
-    var [error, setError] = useState();
-    var [user, setUser] = useState({});
+    var [message, setMessage] = useState();
 
     let getEmail = (event) => {
         if (!/^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/.test(event.target.value)) {
             let emailError = "Please, Enter valid Email";
-            setError(emailError);
+            setMessage(emailError);
         } else {
             let emailError = "";
-            setError(emailError);
+            setMessage(emailError);
         }
     };
 
@@ -24,21 +22,23 @@ function ForgotPassword(props) {
         let emailVal = form.elements.email.value;
         if (!emailVal) {
             let emailError = "Please, Enter Email first";
-            setError(emailError);
+            setMessage(emailError);
         } else {
-            setError({});
-            alert("form validated, Password recovring...");
-            console.log("form validated, Password recovring...", user.email);
             let recoverPassApi = "https://apibyashu.herokuapp.com/api/recoverpassword";
             axios({
                 url: recoverPassApi,
                 method: "post",
-                data: "amitgajare2018@gmail.com",
+                data: { email: emailVal },
             }).then(
                 (response) => {
-                    console.log("respose email", response);
-                    if (response.data.errorMessage === "Error in Resetting Password") {
-                        alert("Error in Resetting Password");
+                    if (response.data.message === "Password Sent to your email") {
+                        alert("Password Sent to your email address");
+                        setTimeout(() => {
+                            props.history.push("/login");
+                        }, 2000);
+                    }
+                    if (response.data.message === "No Such Email exists") {
+                        alert("No Such Email exists");
                     }
                 },
                 (error) => {
@@ -58,7 +58,7 @@ function ForgotPassword(props) {
                     <div className="form-group">
                         <label>Email</label>
                         <input type="email" name="email" class="form-control" onChange={getEmail}></input>
-                        <div className="text-danger">{error}</div>
+                        <div className="text-danger">{message}</div>
                     </div>
                     <div className="text-center mt-5">
                         <button className="btn btn-outline-primary w-50" onClick={recoverPassword}>
